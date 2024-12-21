@@ -1,73 +1,93 @@
-Görüntü İşleme ve Derin Öğrenme Modeli: Hayvan Sınıflandırma
-Bu proje, görüntü işleme ve derin öğrenme teknikleriyle hayvan sınıflandırması yapmak amacıyla geliştirilmiştir. Proje, aşağıdaki adımları içerir:
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proje README</title>
+    <style>
+        /* Başlıkların boyutlarını ayarlıyoruz */
+        h1 {
+            font-size: 36px; /* Büyük başlık */
+        }
 
-İçerik
-Veri Seti Hazırlığı
-Veri Ön İşleme ve Normalizasyon
-Eğitim ve Test Verisi Bölünmesi
-Derin Öğrenme Modeli (CNN) Oluşturma
-Veri Artırma (Data Augmentation)
-Model Eğitimi
-Model Değerlendirme
-Test Sonuçları ve Grafikler
-Görüntü Manipülasyonu ve Beyaz Dengeleme
-Kullanılan Teknolojiler
-Python 3.x
-OpenCV (Görüntü işleme)
-TensorFlow ve Keras (Derin öğrenme)
-NumPy (Sayısal hesaplamalar)
-Matplotlib (Grafikler)
-Scikit-learn (Veri bölme)
-1. Veri Seti Hazırlığı
-Proje, belirli bir dizindeki hayvan görüntülerini işlemek için aşağıdaki sınıflarda etiketlenmiş veriler kullanır:
+        h2 {
+            font-size: 30px; /* Orta büyüklükte başlık */
+        }
 
-collie
-dolphin
-elephant
-fox
-moose
-rabbit
-sheep
-squirrel
-giant+panda
-polar+bear
-Veri kümesinin bulunduğu dizin (dataset_path) ve çıktının kaydedileceği klasör (output_path) belirtilmiştir. Eğer çıktı klasörü mevcut değilse, yeni bir klasör oluşturulur.
+        h3 {
+            font-size: 24px; /* Küçük başlık */
+        }
 
-2. Veri Ön İşleme ve Normalizasyon
-Görüntüler, her bir sınıf için aşağıdaki işlemlerden geçirilir:
+        /* Paragrafların boyutunu ayarlıyoruz */
+        p {
+            font-size: 16px; /* Normal yazı boyutu */
+        }
 
-Görüntülerin boyutları 128x128 piksel olarak yeniden boyutlandırılır.
-Görüntüler 0 ile 1 arasında normalize edilir.
-3. Eğitim ve Test Verisi Bölünmesi
-İşlenen veriler, eğitim ve test setlerine ayrılır:
+        /* Liste elemanlarının boyutunu ayarlıyoruz */
+        ul {
+            font-size: 16px; /* Normal yazı boyutu */
+        }
 
-Eğitim verisi: %70
-Test verisi: %30
-Veriler, train_test_split fonksiyonu kullanılarak rastgele ayrılır.
+        /* Diğer metinler için boyut */
+        .small-text {
+            font-size: 12px; /* Küçük yazı */
+        }
+    </style>
+</head>
+<body>
 
-4. Derin Öğrenme Modeli (CNN) Oluşturma
-Bir Convolutional Neural Network (CNN) modeli oluşturulmuştur:
+<h1>Proje Başlığı</h1>
+<p>Bu proje, belirli hayvan türlerini sınıflandırmak için görüntü işleme ve derin öğrenme (CNN) kullanır. Aşağıda, projenin ana adımlarına dair açıklamalar yer almaktadır.</p>
 
-Conv2D ve MaxPooling2D katmanları ile temel özellik çıkarımı yapılır.
-Dense katmanları ile tam bağlı sınıflandırma yapılır.
-Dropout katmanı ile aşırı öğrenme (overfitting) engellenir.
-5. Veri Artırma (Data Augmentation)
-Eğitim seti için veri artırma işlemi yapılır:
+<h2>1. Veri Hazırlığı ve İşleme</h2>
+<p>Görüntü verisi belirli sınıflara ayrılır ve işlenir. Resimler yeniden boyutlandırılır, normalleştirilir ve kaydedilir.</p>
 
-Görüntüler, rastgele dönüşümlerle (dönme, kaydırma, yatay çevirme) zenginleştirilir.
-6. Model Eğitimi
-Model, 20 epoch boyunca eğitim verisi ile eğitilir. Eğitim sürecinde doğruluk (accuracy) ve kayıp (loss) izlenir.
+<h3>Python Kod Örneği:</h3>
+<pre>
+<code>
+import os
+import cv2
+import numpy as np
 
-7. Model Değerlendirme
-Model, test verisi ve manipüle edilmiş test verisi ile değerlendirilir:
+# Dataset yolu
+dataset_path = '/path/to/dataset'
 
-Test doğruluğu ve kaybı hesaplanır.
-Eğitim ve test doğruluğu ile kayıp grafiklerle gösterilir.
-8. Test Sonuçları ve Grafikler
-Eğitim sürecinin doğruluğu ve kaybı, eğitim ve test sonuçları çizgisel grafiklerle gösterilir.
+# Veri işleme fonksiyonu
+def load_and_process_image(image_path):
+    img = cv2.imread(image_path)
+    img_resized = cv2.resize(img, (224, 224))  # Görüntüyü yeniden boyutlandır
+    img_normalized = img_resized / 255.0  # Görüntüyü normalleştir
+    return img_normalized
+</code>
+</pre>
 
-9. Görüntü Manipülasyonu ve Beyaz Dengeleme
-Test seti üzerindeki görüntüler, farklı ışık kaynakları (mor, sarı, yeşil) altında manipüle edilerek modelin genel performansı değerlendirilir. Ayrıca, görüntülerin beyaz dengesi ayarlanarak daha doğru sonuçlar elde edilmesi sağlanır.
+<h2>2. Modelin Eğitilmesi</h2>
+<p>Veri seti hazırlandıktan sonra, derin öğrenme modelinin eğitilmesi için çeşitli algoritmalar kullanılır. Bu süreç, modelin doğruluğunu artırmak için optimize edilir.</p>
 
-Grafikler:
-Eğitim ve test doğruluğu grafiklerinin yanı sıra, manipüle edilmiş test verisinin doğruluğu ve kaybı da çizilmektedir.
+<h3>Model Kod Örneği:</h3>
+<pre>
+<code>
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D
+
+# Modeli oluşturma
+model = Sequential([
+    Conv2D(32, (3, 3), activation='relu', input_shape=(224, 224, 3)),
+    MaxPooling2D(pool_size=(2, 2)),
+    Flatten(),
+    Dense(128, activation='relu'),
+    Dense(3, activation='softmax')  # 3 sınıf için çıkış
+])
+
+# Modeli derleme
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+</code>
+</pre>
+
+<h2>3. Modelin Değerlendirilmesi</h2>
+<p>Model eğitildikten sonra, doğruluk oranı ve kayıp değeri gibi metrikler üzerinden model değerlendirilir.</p>
+
+<p class="small-text">Bu küçük metin, daha az dikkat çekici olabilir.</p>
+
+</body>
+</html>
